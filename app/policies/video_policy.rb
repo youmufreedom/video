@@ -1,14 +1,4 @@
 class VideoPolicy < ApplicationPolicy
-  class Scope < Scope
-    def resolve
-      if user.admin?
-        scope.all
-      else
-        scope.where(user: user)
-      end
-    end
-  end
-
   def index?
     user.admin? || user.staff?
   end
@@ -27,5 +17,15 @@ class VideoPolicy < ApplicationPolicy
 
   def destroy?
     user.admin?
+  end
+
+  class Scope < Scope
+    def resolve
+      if user.admin?
+        scope.all
+      else
+        scope.where(user: user)
+      end
+    end
   end
 end

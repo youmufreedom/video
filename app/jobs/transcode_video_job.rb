@@ -5,10 +5,8 @@ class TranscodeVideoJob < ApplicationJob
 
   def perform(video_id:)
     video = Video.find(video_id)
-    # Assuming `file` is the attribute for the uploaded video
     movie = FFMPEG::Movie.new(video.file.path)
 
-    # Ensure the directory path is correctly set up
     output_dir = Rails.root.join('storage', 'videos', video_id.to_s)
     FileUtils.mkdir_p(output_dir)
 
