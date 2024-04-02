@@ -1,0 +1,78 @@
+<div class="min-h-screen bg-gray-100 flex flex-col justify-center">
+  <div class="max-w-md w-full mx-auto">
+    <div class="bg-white p-8 border border-gray-300 rounded-lg shadow-lg">
+      <h2 class="mb-6 text-xl font-bold text-gray-900">Upload Video</h2>
+      <% if @video.errors.any? %>
+        <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong class="font-bold">Oops!</strong>
+          <span class="block sm:inline">There were some problems with your input.</span>
+          <ul class="list-disc pl-5 space-y-1">
+            <% @video.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= form_for(@video, html: { multipart: true, class: "dropzone space-y-4", id: "video-upload-form", data: { turbo: false } }) do |f| %>
+        <!-- Video Title -->
+        <div>
+          <%= f.label :title, class: "block text-sm font-medium text-gray-700" %>
+          <%= f.text_field :title, class: "mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" %>
+        </div>
+
+        <!-- Video Description -->
+        <div>
+          <%= f.label :description, class: "block text-sm font-medium text-gray-700" %>
+          <%= f.text_area :description, rows: 4, class: "mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" %>
+        </div>
+
+        <!-- Video File Upload -->
+        <div>
+          <%= f.label :file, class: "block text-sm font-medium text-gray-700" %>
+          <%= f.file_field :file, class: "mt-1 w-full border rounded-md" %>
+        </div>
+
+        <!-- Thumbnail File Upload -->
+        <div>
+          <%= f.label :thumbnail, class: "block text-sm font-medium text-gray-700" %>
+          <%= f.file_field :thumbnail, class: "mt-1 w-full border rounded-md" %>
+        </div>
+
+        <!-- Overlay File Upload -->
+        <div>
+          <%= f.label :overlay, class: "block text-sm font-medium text-gray-700" %>
+          <%= f.file_field :overlay, class: "mt-1 w-full border rounded-md" %>
+        </div>
+
+        <!-- Categories or Tags (Optional) -->
+        <!-- Add here if necessary -->
+
+        <!-- Submit Button -->
+        <div>
+          <%= f.submit "Upload Video", class: "mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script type="module-shim">
+  import Dropzone from "dropzone";
+  Dropzone.autoDiscover = false;
+
+  document.addEventListener('turbo:load', () => {
+    document.querySelectorAll('.dropzone-container').forEach(container => {
+      let dropzoneField = container.querySelector('input[type=file]');
+      let url = container.dataset.dropzoneUrl;
+
+      new Dropzone(container, {
+        url: url,
+        paramName: dropzoneField.name,
+        maxFilesize: 3072, // MB
+        parallelUploads: 2,
+        addRemoveLinks: true,
+      });
+    });
+  });
+</script>

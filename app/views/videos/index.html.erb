@@ -1,0 +1,31 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <% @videos.each do |video| %>
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <% if video.thumbnail? %>
+          <%= link_to video_path(video) do %>
+            <%= image_tag video.thumbnail.url, alt: video.title, class: "h-48 w-full object-cover" %>
+          <% end %>
+        <% else %>
+          <%= link_to video.title, video_path(video), class: "block h-48 w-full bg-gray-200 flex justify-center items-center text-lg font-semibold text-gray-900 hover:bg-gray-300" %>
+        <% end %>
+        <div class="p-4">
+          <h5 class="text-gray-900 text-xl font-medium mb-2"><%= video.title %></h5>
+          <p class="text-gray-700 text-base mb-4">
+            <%= truncate(video.description, length: 100) %>
+          </p>
+          <div class="flex items-center justify-between">
+            <%= link_to 'Edit', edit_video_path(video), class: "text-sm bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-150" %>
+            <%= link_to 'Delete', video, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-sm bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors duration-150" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="mt-6">
+    <%= link_to 'New Video Upload', new_video_path, class: "inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors duration-150" %>
+    <% if user_signed_in? %>
+      <%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } , class: "inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4 transition-colors duration-150" %>
+    <% end %>
+  </div>
+</div>

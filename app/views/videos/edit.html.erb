@@ -1,0 +1,57 @@
+<div class="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden md:max-w-lg">
+    <div class="md:flex">
+      <div class="w-full p-6">
+        <h2 class="text-2xl font-bold text-gray-900">Edit Video</h2>
+        <%= form_for @video, html: { multipart: true, class: "space-y-4 mt-4" } do |f| %>
+          <% if @video.errors.any? %>
+            <div id="error_explanation" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mt-3" role="alert">
+              <p class="font-bold">Please fix the following:</p>
+              <ul class="list-disc list-inside">
+                <% @video.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <!-- Video Title -->
+          <div>
+            <%= f.label :title, class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_field :title, class: "input input-bordered w-full" %>
+          </div>
+
+          <!-- Video Description -->
+          <div>
+            <%= f.label :description, class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_area :description, rows: 4, class: "textarea textarea-bordered w-full" %>
+          </div>
+
+          <!-- Video File Upload (Optional) -->
+          <div class="pt-4">
+            <%= f.label :file, "Replace Video File", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.file_field :file, class: "mt-1 w-full border rounded-md" %>
+          </div>
+
+          <!-- Thumbnail File Upload (Optional) -->
+          <div>
+            <%= f.label :thumbnail, "Replace Thumbnail (Optional)", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.file_field :thumbnail, class: "mt-1 w-full border rounded-md" %>
+          </div>
+
+          <!-- Overlay File Upload (Optional) -->
+          <div>
+            <%= f.label :overlay, "Replace Overlay Image (Optional)", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.file_field :overlay, class: "mt-1 w-full border rounded-md" %>
+          </div>
+
+          <!-- Submit Button -->
+          <div>
+            <%= f.submit "Update Video", class: "btn btn-primary w-full mt-4" %>
+          </div>
+        <% end %>
+        <%= link_to 'Cancel', video_path(@video), class: "text-center w-full block underline text-sm text-gray-600 hover:text-gray-900 mt-4" %>
+      </div>
+    </div>
+  </div>
+</div>
