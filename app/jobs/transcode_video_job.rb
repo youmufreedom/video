@@ -19,6 +19,7 @@ class TranscodeVideoJob < ApplicationJob
       puts progress # Log progress or use it to debug
     end
 
-    video.remove_file!
+    video.remove_file = true
+    video.save
   end
 end

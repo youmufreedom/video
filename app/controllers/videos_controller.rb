@@ -32,9 +32,6 @@ class VideosController < ApplicationController
 
   def show
     @video_path = VideoRetriever.call(@video)
-    p 1111
-    p @video_path
-    p @video_path.class
     authorize @video
   end
 
