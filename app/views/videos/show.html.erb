@@ -1,8 +1,8 @@
 <div class="container mx-auto px-4 py-8">
   <div class="max-w-4xl mx-auto">
-    <% if @video_path.present? %>
+    <% if VideoRetriever.call(@video).present? %>
       <video controls class="w-full h-auto bg-black">
-        <source src="<%= @video_path %>" type="video/mp4">
+        <source src="<%= serve_video_path %>" type="video/mp4">
         Your browser does not support the video tag.
       </video>
     <% else %>

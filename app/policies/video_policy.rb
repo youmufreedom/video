@@ -7,6 +7,10 @@ class VideoPolicy < ApplicationPolicy
     user.admin? || user.staff?
   end
 
+  def serve_video?
+    user.admin? || user.staff?
+  end
+
   def create?
     user.admin? || user.staff?
   end

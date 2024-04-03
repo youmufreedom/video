@@ -17,4 +17,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   resources :videos
+  get 'videos/:id/serve', to: 'videos#serve_video', as: :serve_video
 end

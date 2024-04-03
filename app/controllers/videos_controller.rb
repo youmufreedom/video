@@ -1,9 +1,9 @@
 class VideosController < ApplicationController
-  before_action :set_video, only: %i[show edit update destroy]
+  before_action :set_video, only: %i[show serve_video edit update destroy]
   before_action :authenticate_user!
   after_action :verify_authorized
 
-  skip_after_action :verify_policy_scoped, only: %i[show new create edit update destroy]
+  skip_after_action :verify_policy_scoped, only: %i[show serve_video new create edit update destroy]
 
   def index
     @videos = policy_scope(Video).includes(:organisation).order(created_at: :desc)
@@ -31,8 +31,13 @@ class VideosController < ApplicationController
   end
 
   def show
-    @video_path = VideoRetriever.call(@video)
     authorize @video
+  end
+
+  def serve_video
+    authorize @video
+    path = VideoRetriever.call(@video)
+    send_file path, type: 'video/mp4', disposition: 'inline' if path.present?
   end
 
   def edit

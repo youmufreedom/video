@@ -8,13 +8,12 @@ class VideoRetriever
   end
 
   def call
-    transcoded_video_path = File.join('storage', 'videos', @video_id.to_s, 'transcoded_file.mp4')
-    original_video_path = File.join('public', 'uploads', 'video', 'file', @video.id.to_s)
+    transcoded_file_path = File.join('storage', 'videos', @video.id.to_s, 'transcoded_file.mp4')
 
-    if File.exist?(original_video_path)
-      original_video_path.to_s
-    else
-      transcoded_video_path.to_s
+    if @video.file?
+      @video.file.url
+    elsif File.exist?(transcoded_file_path)
+      transcoded_file_path
     end
   end
 end
