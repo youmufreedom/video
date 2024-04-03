@@ -19,5 +19,12 @@ class TranscodeVideoJob < ApplicationJob
 
     video.remove_file = true
     video.save
+
+    uploaded_file_dir = video.file.store_dir
+    if File.directory?(uploaded_file_dir) && !uploaded_file_dir.blank?
+      FileUtils.remove_dir(uploaded_file_dir, force: true)
+    end
+  rescue StandardError => e
+    Rails.logger.error "Failed to clean up video storage: #{e.message}"
   end
 end

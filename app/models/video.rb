@@ -9,6 +9,7 @@ class Video < ApplicationRecord
   has_one_attached :overlay
 
   validates :file, presence: true
+  validates :title, presence: true
 
   mount_uploader :file, VideoFileUploader
   mount_uploader :thumbnail, ThumbnailUploader
